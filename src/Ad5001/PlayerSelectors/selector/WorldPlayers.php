@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace Ad5001\PlayerSelectors\selector;
 
@@ -8,7 +8,10 @@ use pocketmine\command\CommandSender;
 use pocketmine\Server;
 use pocketmine\level\Position;
 
-
+/**
+ * Class WorldPlayers
+ * @package Ad5001\PlayerSelectors\selector
+ */
 class WorldPlayers extends Selector{
     
     public function __construct(){

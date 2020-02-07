@@ -8,6 +8,10 @@ use pocketmine\command\CommandSender;
 use pocketmine\Server;
 use pocketmine\level\Position;
 
+/**
+ * Class AllPlayers
+ * @package Ad5001\PlayerSelectors\selector
+ */
 class AllPlayers extends Selector{
     
     public function __construct(){

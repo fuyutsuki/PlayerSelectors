@@ -13,6 +13,7 @@ use Ad5001\PlayerSelectors\selector\RandomPlayer;
 use Ad5001\PlayerSelectors\selector\WorldPlayers;
 use Ad5001\PlayerSelectors\selector\Entities;
 use Ad5001\PlayerSelectors\selector\SelfSelector;
+use pocketmine\utils\TextFormat;
 
 /**
  * Class Main
@@ -23,11 +24,10 @@ class Main extends PluginBase {
 	/** @var Selector[] */
     protected static $selectors = [];
 
-    public function onEnable(): void{
-    	$listener = new EventListener($this);
-        $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    public function onEnable() {
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         // Registering the default selectors
-		self::registerSelectors([
+		$this->registerSelectors([
 			new AllPlayers(),
 			new ClosestPlayer(),
 			new Entities(),
@@ -46,20 +46,20 @@ class Main extends PluginBase {
     public function execSelectors(string $m, CommandSender $sender): bool{
         preg_match_all($this->buildRegex(), $m, $matches);
         $commandsToExecute = [$m];
-        foreach($matches[0] as $index => $match){
-            if(isset(self::$selectors[$matches[1][$index]])){ // Does the selector exist?
+        foreach($matches[0] as $indexA => $match){
+            if(isset(self::$selectors[$matches[1][$indexA]])){ // Does the selector exist?
                 // Search for the parameters
-                $params = self::$selectors[$matches[1][$index]]->acceptsModifiers() ? $this->checkArgParams($matches, $index): [];
+                $params = self::$selectors[$matches[1][$indexA]]->acceptsModifiers() ? $this->checkArgParams($matches, $indexA): [];
                 // Applying the selector
                 $newCommandsToExecute = [];
-                foreach($commandsToExecute as $index => $cmd){
+                foreach($commandsToExecute as $indexB => $cmd){
                     // Foreaching the returning commands to push them to the new commands to be executed at the next run.
-                    foreach(self::$selectors[$matches[1][$index]]->applySelector($sender, $params) as $selectorStr){
+                    foreach(self::$selectors[$matches[1][$indexB]]->applySelector($sender, $params) as $selectorStr){
                         if(strpos($selectorStr, " ") !== -1) $selectorStr = explode(" ", $selectorStr)[count(explode(" ", $selectorStr)) - 1]; // Name w/ spaces. Match the nearest name in the player. Not perfect :/
                         $newCommandsToExecute[] = substr_replace($cmd, " " . $selectorStr . " ", strpos($cmd, $match), strlen($match));
                     }
                     if(count($newCommandsToExecute) == 0) {
-                        $sender->sendMessage("§cYour selector $match (" . self::$selectors[$matches[1][$index]]->getName() . ") did not mactch any player/entity.");
+                        $sender->sendMessage(TextFormat::RED . "Your selector{$match} (" . self::$selectors[$matches[1][$indexB]]->getName() . ") did not match any player/entity.");
                         return true;
                     }
                 }
@@ -120,35 +120,32 @@ class Main extends PluginBase {
 
 	/**
 	 * Register some selectors
-	 * @param array $sels
-	 * @return void
+	 * @param Selector[] $selectors
 	 */
-    public static function registerSelectors(array $sels): void {
-    	foreach ($sels as $sel) {
-    		self::registerSelector($sel);
+    public function registerSelectors(array $selectors) {
+    	foreach ($selectors as $selector) {
+    		$this->registerSelector($selector);
 		}
 	}
     
     /**
      * Registers a selector
-     * @param Selector $sel
-     * @return void
+     * @param Selector $selector
      */
-    public static function registerSelector(Selector $sel): void {
-        self::$selectors[$sel->getSelectorChar()] = $sel;
+    public function registerSelector(Selector $selector) {
+        self::$selectors[$selector->getSelectorChar()] = $selector;
     }
-        
+
     /**
      * Unregisters a selector
      * @param string $selChar The selector character
-     * @return void
      */
-    public static function unregisterSelector(string $selChar = ""): void {
+    public static function unregisterSelector(string $selChar = "") {
     	if (!empty($selChar)) {
     		if (isset(self::$selectors[$selChar])) {
     			unset(self::$selectors[$selChar]);
 			}else {
-    			throw new \InvalidArgumentException($selChar." was not registered.");
+    			throw new \InvalidArgumentException("{$selChar} was not registered.");
 			}
 		}else {
 			self::$selectors = [];

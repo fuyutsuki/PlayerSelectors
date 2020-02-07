@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ad5001\PlayerSelectors\selector;

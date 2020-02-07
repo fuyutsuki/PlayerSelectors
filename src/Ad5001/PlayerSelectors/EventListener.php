@@ -21,28 +21,26 @@ class EventListener implements Listener {
 		$this->main = $plugin;
 	}
 
-	/**
-	 * When a command is executed, check for selectors
-	 * @priority HIGHEST
-	 * @param PlayerCommandPreProcessEvent $event
-	 * @return void
-	 */
-	public function onPlayerCommand(PlayerCommandPreprocessEvent $event): void{
-		$m = substr($event->getMessage(), 1);
-		if(substr($event->getMessage(), 0, 1) == "/" && $this->main->execSelectors($m, $event->getPlayer())) {
+    /**
+     * When a command is executed, check for selectors
+     * @priority HIGHEST
+     * @param PlayerCommandPreprocessEvent $event
+     */
+	public function onPlayerCommand(PlayerCommandPreprocessEvent $event) {
+	    $message = $event->getMessage();
+        $m = substr($message, 1);
+		if(substr($message, 0, 1) === "/" && $this->main->execSelectors($m, $event->getPlayer())) {
 			$event->setCancelled();
 		}
 	}
 
-	/**
-	 * When a command is executed, check for selectors
-	 * @priority HIGHEST
-	 * @param CommandEvent $event
-	 * @return void
-	 */
-	public function onConsoleCommand(CommandEvent $event): void {
-		$m = $event->getCommand();
-		if ($this->main->execSelectors($m, $event->getSender())) {
+    /**
+     * When a command is executed, check for selectors
+     * @priority HIGHEST
+     * @param CommandEvent $event
+     */
+	public function onConsoleCommand(CommandEvent $event) {
+		if ($this->main->execSelectors($event->getCommand(), $event->getSender())) {
 			$event->setCancelled();
 		}
 	}

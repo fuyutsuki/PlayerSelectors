@@ -6,6 +6,10 @@ namespace Ad5001\PlayerSelectors\selector;
 
 use pocketmine\command\CommandSender;
 
+/**
+ * Class SelfSelector
+ * @package Ad5001\PlayerSelectors\selector
+ */
 class SelfSelector extends Selector{
     
     public function __construct(){
@@ -19,7 +23,7 @@ class SelfSelector extends Selector{
      * @param array $parameters
      * @return array
      */
-    public function applySelector(CommandSender $sender, array $parameters = []): array{
+    public function applySelector(CommandSender $sender, array $parameters = []): array {
         return [$sender->getName()];
     }
 }

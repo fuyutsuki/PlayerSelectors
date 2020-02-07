@@ -1,16 +1,18 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace Ad5001\PlayerSelectors\selector;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Server;
 use pocketmine\level\Position;
-
 use Ad5001\PlayerSelectors\Main;
 
-
+/**
+ * Class Entities
+ * @package Ad5001\PlayerSelectors\selector
+ */
 class Entities extends Selector{
     
     public function __construct(){
