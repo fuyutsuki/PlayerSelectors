@@ -28,12 +28,12 @@ class Main extends PluginBase {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         // Registering the default selectors
 		$this->registerSelectors([
-			new AllPlayers(),
-			new ClosestPlayer(),
-			new Entities(),
-			new RandomPlayer(),
-			new SelfSelector(),
-			new WorldPlayers()
+			new AllPlayers,
+			new ClosestPlayer,
+			new Entities,
+			new RandomPlayer,
+			new SelfSelector,
+			new WorldPlayers
 		]);
     }
 
