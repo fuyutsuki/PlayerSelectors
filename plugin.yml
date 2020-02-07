@@ -1,7 +1,9 @@
 name: PlayerSelectors
+prefix: PlayerSelectors
 main: Ad5001\PlayerSelectors\Main
 version: 1.1.0
-api: 3.0.0
+api: 3.2.0
 author: Ad5001
 authors:
- - yuko_fuyutsuki
+ - poggit-orphanage
+website: https://github.com/poggit-orphanage/PlayerSelectors

@@ -1,5 +1,5 @@
-# PhpStorm
-.idea/
+# PHPStorm
+.idea
 
 # Composer
-vendor/
+vendor
